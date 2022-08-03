@@ -39,7 +39,7 @@ def get_crop_image(img, h, w):
 
     return img
 
-def get_tiles_by_grid(img, r=5, c=10):
+def get_tiles_by_grid(img, r, c, ignore_excess=True):
     '''
     Parameters
     ----------
@@ -49,6 +49,8 @@ def get_tiles_by_grid(img, r=5, c=10):
         number of rows in grid
     c: int
         number of columns in grid
+    ignore_excess: bool
+        true if image should be cropped to ignore smaller tiles
 
     Returns
     -------
@@ -57,7 +59,8 @@ def get_tiles_by_grid(img, r=5, c=10):
     Image masked with tiles and ids, shape = (h,w,ch)
     '''
 
-    img = get_crop_image(img, r, c)
+    if ignore_excess:
+        img = get_crop_image(img, r, c)
     height, width = img.shape[:2]
 
     tile_w = int(width/c)
@@ -77,7 +80,7 @@ def get_tiles_by_grid(img, r=5, c=10):
 
     return img, tiles, mask
 
-def get_tiles_by_pixels(img, h=100, w=100):
+def get_tiles_by_pixels(img, h, w, ignore_excess=True):
     '''
     Parameters
     ----------
@@ -87,6 +90,8 @@ def get_tiles_by_pixels(img, h=100, w=100):
         height of tile in pixels
     w: int
         width of tile in pixels
+    ignore_excess: bool
+        true if image should be cropped to ignore smaller tiles
 
     Returns
     -------
@@ -95,7 +100,8 @@ def get_tiles_by_pixels(img, h=100, w=100):
     Image masked with tiles and ids, shape = (h,w,ch)
     '''
 
-    img = get_crop_image(img, h, w)
+    if ignore_excess:
+        img = get_crop_image(img, h, w)
     height, width = img.shape[:2]
     mask = img.copy()
 
